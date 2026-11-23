@@ -1,0 +1,28 @@
+{
+  "name": "zero-proxy-mcp-suite",
+  "version": "1.1.0",
+  "description": "Runnable MCP Server (STDIO) & Remote Streamable HTTP Bridge for Zero-Proxy Web Intelligence (Google News RSS, ESPN Sports, Remote Jobs, Polymarket & Kalshi, Shopify, Podcasts, YC Startups, SEC EDGAR, Website Contacts).",
+  "type": "module",
+  "bin": {
+    "zero-proxy-mcp-suite": "./dist/index.js"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "tsx src/test.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.11.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "license": "MIT"
+}

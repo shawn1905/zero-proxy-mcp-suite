@@ -22,6 +22,26 @@ Production-grade **Remote MCP Servers (Streamable HTTP)** and **plug-and-play n8
 
 ## Quick Setup (Claude Desktop / Cursor / Windsurf)
 
+### Option A: Run Locally via STDIO (Open-Source Implementation Included)
+
+This repository includes a runnable TypeScript STDIO MCP server (`src/index.ts`, `Dockerfile`, `glama.json`) with built-in keyless `search_google_news_rss`, `list_hosted_mcp_servers`, and `invoke_hosted_mcp_tool` bridging all 9 hosted servers:
+
+```bash
+git clone https://github.com/shawn1905/zero-proxy-mcp-suite.git
+cd zero-proxy-mcp-suite
+npm install && npm run build
+npm start
+```
+
+Or via Docker:
+
+```bash
+docker build -t zero-proxy-mcp-suite .
+docker run -i --rm -e APIFY_TOKEN=YOUR_APIFY_TOKEN zero-proxy-mcp-suite
+```
+
+### Option B: Connect Directly to Hosted Streamable HTTP Endpoints (`/mcp`)
+
 Add any server to your `claude_desktop_config.json` or `.cursor/mcp.json` (or use the [1-click Config Generator](https://shawn1905.github.io/indie-builder-toolkit/)):
 
 ```json
