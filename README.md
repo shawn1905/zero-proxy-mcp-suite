@@ -66,6 +66,14 @@ Ready to import directly into self-hosted or cloud **n8n** (`Workflows → Impor
 1. [`n8n-templates/daily-competitor-news-substack-digest.json`](./n8n-templates/daily-competitor-news-substack-digest.json) — Automated daily morning briefing combining 24h Google News + clean Markdown Substack competitor posts.
 2. [`n8n-templates/b2b-podcast-and-remote-hiring-leads.json`](./n8n-templates/b2b-podcast-and-remote-hiring-leads.json) — Weekly B2B lead pipeline pulling active companies hiring high-salary remote engineers ($120k+) + podcast leads.
 
+### Want All 5 Production n8n Workflows + 1-Command Docker Setup?
+
+[![AI Market & Lead Intelligence n8n Automation Suite](./assets/gumroad-cover-1280x720.png)](https://fengyetnot.gumroad.com/l/skuqx)
+
+Get the complete **AI Market & Lead Intelligence — 5 Production n8n Workflows + Docker Kit ($19)** on Gumroad (includes all 5 ready-to-import workflows for News/Substack, B2B Podcast & Hiring Leads, Shopify Discount Watcher, Polymarket/Kalshi Odds, ESPN Live Lines + `docker-compose.yml` + `.env.example` + 3-min setup guide):
+
+👉 **[Get the Complete 5-in-1 n8n + Docker Kit on Gumroad ($19)](https://fengyetnot.gumroad.com/l/skuqx)**
+
 ---
 
 ## License
