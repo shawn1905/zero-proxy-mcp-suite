@@ -1,0 +1,80 @@
+{
+  "name": "Weekly B2B Lead Pipeline (Podcast Host Emails + Actively Hiring Remote Companies)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [1],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "weekly-trigger",
+      "name": "Weekly Monday 9 AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/shawn1905~podcast-leads-email-mcp/run-sync-get-dataset-items",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "={{ $env.APIFY_TOKEN }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"mode\": \"podcast_leads\",\n  \"queries\": [\"saas founder\", \"ai startup\"],\n  \"country\": \"US\",\n  \"onlyWithEmail\": true,\n  \"maxDaysSinceLastEpisode\": 90,\n  \"maxPodcastsPerQuery\": 25\n}"
+      },
+      "id": "podcast-leads",
+      "name": "Find Active Podcast Host Emails",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/shawn1905~remote-jobs-intelligence-hub/run-sync-get-dataset-items",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "={{ $env.APIFY_TOKEN }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"mode\": \"hiring_companies\",\n  \"sources\": [\"himalayas\", \"remoteok\", \"remotive\", \"jobicy\"],\n  \"query\": \"engineer\",\n  \"minSalary\": 120000,\n  \"maxResults\": 50\n}"
+      },
+      "id": "hiring-companies",
+      "name": "Find High-Budget Hiring Companies",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 420]
+    }
+  ],
+  "connections": {
+    "Weekly Monday 9 AM": {
+      "main": [
+        [
+          { "node": "Find Active Podcast Host Emails", "type": "main", "index": 0 },
+          { "node": "Find High-Budget Hiring Companies", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  },
+  "settings": { "executionOrder": "v1" }
+}

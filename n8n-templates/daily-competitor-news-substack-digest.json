@@ -1,0 +1,108 @@
+{
+  "name": "Daily Competitor Intelligence Digest (Substack + Google News via Apify)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Daily 8 AM Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/shawn1905~google-news-rss-mcp-server/run-sync-get-dataset-items",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "={{ $env.APIFY_TOKEN }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"mode\": \"search\",\n  \"queries\": [\"artificial intelligence\", \"SaaS funding\"],\n  \"when\": \"1d\",\n  \"country\": \"US\",\n  \"maxItemsPerQuery\": 15,\n  \"deduplicate\": true\n}"
+      },
+      "id": "fetch-google-news",
+      "name": "Fetch Google News (24h)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/shawn1905~substack-intelligence-scraper/run-sync-get-dataset-items",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "={{ $env.APIFY_TOKEN }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"mode\": \"publication_posts\",\n  \"publications\": [\"https://www.lennysnewsletter.com\", \"https://blog.bytebytego.com\"],\n  \"sort\": \"new\",\n  \"maxPostsPerPublication\": 3,\n  \"includeFullContent\": true\n}"
+      },
+      "id": "fetch-substack",
+      "name": "Fetch Substack Markdown",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 420]
+    },
+    {
+      "parameters": {
+        "mode": "append"
+      },
+      "id": "merge-feeds",
+      "name": "Merge News & Substack",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [720, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all().map(i => i.json);\nconst lines = items.slice(0, 20).map((it, idx) => {\n  const tag = it.recordType === 'post' ? '[Substack]' : '[News]';\n  const src = it.sourceName || it.publicationName || '';\n  return `${idx + 1}. ${tag} ${it.title} (${src}) — ${it.url || it.link}`;\n});\nreturn [{ json: { digestDate: new Date().toISOString().slice(0, 10), itemCount: items.length, markdownSummary: lines.join('\\n') } }];"
+      },
+      "id": "format-digest",
+      "name": "Format Daily Digest",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [960, 300]
+    }
+  ],
+  "connections": {
+    "Daily 8 AM Trigger": {
+      "main": [
+        [
+          { "node": "Fetch Google News (24h)", "type": "main", "index": 0 },
+          { "node": "Fetch Substack Markdown", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Fetch Google News (24h)": {
+      "main": [[{ "node": "Merge News & Substack", "type": "main", "index": 0 }]]
+    },
+    "Fetch Substack Markdown": {
+      "main": [[{ "node": "Merge News & Substack", "type": "main", "index": 1 }]]
+    },
+    "Merge News & Substack": {
+      "main": [[{ "node": "Format Daily Digest", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": { "executionOrder": "v1" }
+}
