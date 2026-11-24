@@ -5,6 +5,7 @@ Production-grade **Remote MCP Servers (Streamable HTTP)** and **plug-and-play n8
 - **Zero headless browsers & zero residential proxies** (sub-second responses, 256 MB lightweight containers)
 - **Native Streamable HTTP MCP (`/mcp`)** — no local Docker or Node.js setup required
 - **Installable Agent Skills (`skills.sh` / Claude Code / Cursor / Codex)**: `npx skills add shawn1905/zero-proxy-mcp-suite`
+- **Pay-per-Request `x402` Base USDC API (No API Keys / No Signup)**: https://x402-zero-proxy-api.x402-zero-proxy-api.workers.dev (`$0.005–$0.008` USDC on Base Mainnet `eip155:8453`)
 - **Live Interactive Config Generator & 2026 MoR Fee Calculator**: https://shawn1905.github.io/indie-builder-toolkit/
 
 ---
