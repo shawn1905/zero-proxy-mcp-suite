@@ -4,6 +4,7 @@ Production-grade **Remote MCP Servers (Streamable HTTP)** and **plug-and-play n8
 
 - **Zero headless browsers & zero residential proxies** (sub-second responses, 256 MB lightweight containers)
 - **Native Streamable HTTP MCP (`/mcp`)** — no local Docker or Node.js setup required
+- **Installable Agent Skills (`skills.sh` / Claude Code / Cursor / Codex)**: `npx skills add shawn1905/zero-proxy-mcp-suite`
 - **Live Interactive Config Generator & 2026 MoR Fee Calculator**: https://shawn1905.github.io/indie-builder-toolkit/
 
 ---
